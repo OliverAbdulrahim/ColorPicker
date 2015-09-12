@@ -148,7 +148,7 @@ public class ColorPicker extends javax.swing.JFrame {
         blueLabel.setText("Blue");
 
         redSlider.setMaximum(255);
-        redSlider.setValue(128);
+        redSlider.setValue(0);
         redSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 redSliderStateChanged(evt);
@@ -156,7 +156,7 @@ public class ColorPicker extends javax.swing.JFrame {
         });
 
         greenSlider.setMaximum(255);
-        greenSlider.setValue(128);
+        greenSlider.setValue(0);
         greenSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 greenSliderStateChanged(evt);
@@ -164,7 +164,7 @@ public class ColorPicker extends javax.swing.JFrame {
         });
 
         blueSlider.setMaximum(255);
-        blueSlider.setValue(128);
+        blueSlider.setValue(0);
         blueSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 blueSliderStateChanged(evt);

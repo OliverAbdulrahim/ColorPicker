@@ -269,7 +269,7 @@
         <Component class="javax.swing.JSlider" name="redSlider">
           <Properties>
             <Property name="maximum" type="int" value="255"/>
-            <Property name="value" type="int" value="128"/>
+            <Property name="value" type="int" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="redSliderStateChanged"/>
@@ -278,7 +278,7 @@
         <Component class="javax.swing.JSlider" name="greenSlider">
           <Properties>
             <Property name="maximum" type="int" value="255"/>
-            <Property name="value" type="int" value="128"/>
+            <Property name="value" type="int" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="greenSliderStateChanged"/>
@@ -287,7 +287,7 @@
         <Component class="javax.swing.JSlider" name="blueSlider">
           <Properties>
             <Property name="maximum" type="int" value="255"/>
-            <Property name="value" type="int" value="128"/>
+            <Property name="value" type="int" value="0"/>
           </Properties>
           <Events>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="blueSliderStateChanged"/>
