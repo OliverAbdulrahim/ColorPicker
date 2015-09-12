@@ -34,10 +34,9 @@ public class ColorPicker extends javax.swing.JFrame {
     private int blue;
     
     /**
-     * Stores the default color value of the red, green, and blue components. 
-     * This value is about halfway between 0 and 255.
+     * Stores the default color value of the red, green, and blue components.
      */
-    public static final int DEFAULT_COLOR_VALUE = 128;
+    public static final int DEFAULT_COLOR_VALUE = 0;
 
     /**
      * Creates new, default {@code ColorPicker_GUI} form.
@@ -47,6 +46,7 @@ public class ColorPicker extends javax.swing.JFrame {
         green = DEFAULT_COLOR_VALUE;
         blue = DEFAULT_COLOR_VALUE;
         initComponents();
+        updateLabel();
     }
 
     @SuppressWarnings("unchecked")
