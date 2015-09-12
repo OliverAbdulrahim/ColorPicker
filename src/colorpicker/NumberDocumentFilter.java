@@ -10,6 +10,7 @@ import javax.swing.text.DocumentFilter;
  * it receives.
  * 
  * @author Oliver Abdulrahim
+ * @deprecated No longer necessary within the scope of this package.
  */
 public class NumberDocumentFilter 
     extends DocumentFilter
