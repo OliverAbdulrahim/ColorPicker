@@ -385,7 +385,7 @@ public class ColorPicker extends javax.swing.JFrame {
     }//GEN-LAST:event_redValueFieldActionPerformed
 
     private void fileCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileCopyMenuItemActionPerformed
-        
+        addColorToClipboard();
     }//GEN-LAST:event_fileCopyMenuItemActionPerformed
     
     /**
