@@ -71,8 +71,6 @@ public class ColorPicker extends javax.swing.JFrame {
         menuBarFile_New = new javax.swing.JMenuItem();
         menuBarFile_Separator = new javax.swing.JPopupMenu.Separator();
         menuBarFile_Exit = new javax.swing.JMenuItem();
-        menuBarEdit = new javax.swing.JMenu();
-        menuBarEdit_Settings = new javax.swing.JMenuItem();
         menuBarHelp = new javax.swing.JMenu();
         menuBarHelp_About = new javax.swing.JMenuItem();
 
@@ -254,14 +252,6 @@ public class ColorPicker extends javax.swing.JFrame {
 
         menuBar.add(menuBarFile);
 
-        menuBarEdit.setText("Edit");
-
-        menuBarEdit_Settings.setText("Settings");
-        menuBarEdit_Settings.setEnabled(false);
-        menuBarEdit.add(menuBarEdit_Settings);
-
-        menuBar.add(menuBarEdit);
-
         menuBarHelp.setText("Help");
 
         menuBarHelp_About.setText("About");
@@ -420,8 +410,6 @@ public class ColorPicker extends javax.swing.JFrame {
     private javax.swing.JLabel greenLabel;
     private javax.swing.JSlider greenSlider;
     private javax.swing.JMenuBar menuBar;
-    private javax.swing.JMenu menuBarEdit;
-    private javax.swing.JMenuItem menuBarEdit_Settings;
     private javax.swing.JMenu menuBarFile;
     private javax.swing.JMenuItem menuBarFile_Exit;
     private javax.swing.JMenuItem menuBarFile_New;
