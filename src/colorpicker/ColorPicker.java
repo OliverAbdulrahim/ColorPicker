@@ -1,14 +1,19 @@
 package colorpicker;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.text.AbstractDocument;
 
 /**
  * The {@code ColorPicker} class contains a simple user interface that can 
@@ -49,9 +54,50 @@ public class ColorPicker extends javax.swing.JFrame {
         green = DEFAULT_COLOR_VALUE;
         blue = DEFAULT_COLOR_VALUE;
         initComponents();
-        updateLabel();
+        
+        getAllComponents(this).stream()
+                .filter((Component c) -> {
+                    return c instanceof JTextField;
+                })
+                .forEach((Component c) -> {
+                    setTextFieldDigitFilter((JTextField) c);
+                }
+        );
+        
+        updateLabels();
     }
-
+    
+    /**
+     * Returns an {@code ArrayList} containing all the components in the given
+     * object.
+     * 
+     * @param c The container to extract components from.
+     * @return An {@code ArrayList} containing all the components in the given
+     *         object.
+     */
+    private static ArrayList<Component> getAllComponents(Container c) {
+        Component[] comps = c.getComponents();
+        ArrayList<Component> compList = new ArrayList<>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container) {
+                compList.addAll(getAllComponents((Container) comp));
+            }
+        }
+        return compList;
+    }
+    
+    /**
+     * Adds a document filter to a given {@code JTextField} which prevents the
+     * input of non-digit characters.
+     * 
+     * @param textField The text field to add the digit filter to.
+     */
+    private static void setTextFieldDigitFilter(JTextField textField) {
+        NumberDocumentFilter filter = new NumberDocumentFilter();
+        ((AbstractDocument) textField.getDocument()).setDocumentFilter(filter);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -63,20 +109,21 @@ public class ColorPicker extends javax.swing.JFrame {
         redSlider = new javax.swing.JSlider();
         greenSlider = new javax.swing.JSlider();
         blueSlider = new javax.swing.JSlider();
-        redValueLabel = new javax.swing.JTextField();
-        greenValueLabel = new javax.swing.JTextField();
-        blueValueLabel = new javax.swing.JTextField();
+        redValueField = new javax.swing.JTextField();
+        greenValueField = new javax.swing.JTextField();
+        blueValueField = new javax.swing.JTextField();
         previewPanel = new javax.swing.JPanel();
         colorLabel = new javax.swing.JLabel();
         aboutPanel = new javax.swing.JPanel();
         aboutLabel = new javax.swing.JLabel();
         topMenuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
-        fileNewMenuItem = new javax.swing.JMenuItem();
+        fileCopyMenuItem = new javax.swing.JMenuItem();
         fileSeparator = new javax.swing.JPopupMenu.Separator();
         fileExitItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         settingsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Color Settings"));
 
@@ -115,14 +162,19 @@ public class ColorPicker extends javax.swing.JFrame {
             }
         });
 
-        redValueLabel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        redValueLabel.setText("0");
+        redValueField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        redValueField.setText("0");
+        redValueField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redValueFieldActionPerformed(evt);
+            }
+        });
 
-        greenValueLabel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        greenValueLabel.setText("0");
+        greenValueField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        greenValueField.setText("0");
 
-        blueValueLabel.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        blueValueLabel.setText("0");
+        blueValueField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        blueValueField.setText("0");
 
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
@@ -136,9 +188,9 @@ public class ColorPicker extends javax.swing.JFrame {
                     .addComponent(greenLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(greenValueLabel, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(redValueLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-                    .addComponent(blueValueLabel))
+                    .addComponent(greenValueField, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(redValueField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .addComponent(blueValueField))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(blueSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,7 +203,7 @@ public class ColorPicker extends javax.swing.JFrame {
 
         settingsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {blueSlider, greenSlider, redSlider});
 
-        settingsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {blueValueLabel, greenValueLabel, redValueLabel});
+        settingsPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {blueValueField, greenValueField, redValueField});
 
         settingsPanelLayout.setVerticalGroup(
             settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,21 +219,21 @@ public class ColorPicker extends javax.swing.JFrame {
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(redLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(redValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(redValueField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(greenLabel)
-                            .addComponent(greenValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(greenValueField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(blueLabel)
-                            .addComponent(blueValueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(blueValueField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         settingsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {blueLabel, blueSlider, greenLabel, greenSlider, redLabel, redSlider});
 
-        settingsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {blueValueLabel, greenValueLabel, redValueLabel});
+        settingsPanelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {blueValueField, greenValueField, redValueField});
 
         previewPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Color Preview"));
 
@@ -234,9 +286,15 @@ public class ColorPicker extends javax.swing.JFrame {
 
         fileMenu.setText("File");
 
-        fileNewMenuItem.setText("New");
-        fileNewMenuItem.setEnabled(false);
-        fileMenu.add(fileNewMenuItem);
+        fileCopyMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        fileCopyMenuItem.setText("Copy Current Color");
+        fileCopyMenuItem.setEnabled(false);
+        fileCopyMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileCopyMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(fileCopyMenuItem);
         fileMenu.add(fileSeparator);
 
         fileExitItem.setText("Exit");
@@ -321,6 +379,14 @@ public class ColorPicker extends javax.swing.JFrame {
             addColorToClipboard();
         }
     }//GEN-LAST:event_colorLabelMouseClicked
+
+    private void redValueFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redValueFieldActionPerformed
+        
+    }//GEN-LAST:event_redValueFieldActionPerformed
+
+    private void fileCopyMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileCopyMenuItemActionPerformed
+        
+    }//GEN-LAST:event_fileCopyMenuItemActionPerformed
     
     /**
      * Returns a hex representation of the given color with zero-padding.
@@ -328,7 +394,7 @@ public class ColorPicker extends javax.swing.JFrame {
      * @param c The color to process.
      * @return A padded {@code String} hex representation of the given color.
      */
-    public static String colorToHexString(Color c) {
+    private static String colorToHexString(Color c) {
         return String.format("#%06X", (0xFFFFFF & c.hashCode()));
     }
     
@@ -349,7 +415,7 @@ public class ColorPicker extends javax.swing.JFrame {
      */
     private void colorSliderChanged() {
         updateValues();
-        updateLabel();
+        updateLabels();
     }
     
     /**
@@ -364,13 +430,16 @@ public class ColorPicker extends javax.swing.JFrame {
     
     /**
      * Updates this object's {@code colorLabel} using this object's 
-     * {@link #red}, {@link #green}, and {@link #blue} attributes.
+     * {@link #red}, {@link #green}, and {@link #blue} attributes. Also updates
+     * text fields which specify the current color.
      */
-    private void updateLabel() {
-        colorLabel.setBackground(new Color(red, green, blue));
-        colorLabel.setToolTipText("Currently " + red   + " red, " 
-                                               + green + " green, " 
-                                               + blue  + " blue.");
+    private void updateLabels() {
+        Color c = new Color(red, green, blue);
+        colorLabel.setBackground(c);
+        colorLabel.setToolTipText(colorToHexString(c));
+        redValueField.setText(red + "");
+        greenValueField.setText(green + "");
+        blueValueField.setText(blue + "");
     }
     
     /**
@@ -405,19 +474,19 @@ public class ColorPicker extends javax.swing.JFrame {
     private javax.swing.JPanel aboutPanel;
     private javax.swing.JLabel blueLabel;
     private javax.swing.JSlider blueSlider;
-    private javax.swing.JTextField blueValueLabel;
+    private javax.swing.JTextField blueValueField;
     private javax.swing.JLabel colorLabel;
+    private javax.swing.JMenuItem fileCopyMenuItem;
     private javax.swing.JMenuItem fileExitItem;
     private javax.swing.JMenu fileMenu;
-    private javax.swing.JMenuItem fileNewMenuItem;
     private javax.swing.JPopupMenu.Separator fileSeparator;
     private javax.swing.JLabel greenLabel;
     private javax.swing.JSlider greenSlider;
-    private javax.swing.JTextField greenValueLabel;
+    private javax.swing.JTextField greenValueField;
     private javax.swing.JPanel previewPanel;
     private javax.swing.JLabel redLabel;
     private javax.swing.JSlider redSlider;
-    private javax.swing.JTextField redValueLabel;
+    private javax.swing.JTextField redValueField;
     private javax.swing.JPanel settingsPanel;
     private javax.swing.JMenuBar topMenuBar;
     // End of variables declaration//GEN-END:variables

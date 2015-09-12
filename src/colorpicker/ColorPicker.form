@@ -9,11 +9,17 @@
             <Property name="text" type="java.lang.String" value="File"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="fileNewMenuItem">
+            <MenuItem class="javax.swing.JMenuItem" name="fileCopyMenuItem">
               <Properties>
-                <Property name="text" type="java.lang.String" value="New"/>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+C"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Copy Current Color"/>
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fileCopyMenuItemActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="fileSeparator">
             </MenuItem>
@@ -32,6 +38,7 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="topMenuBar"/>
@@ -105,9 +112,9 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="greenValueLabel" linkSize="5" alignment="0" max="32767" attributes="0"/>
-                      <Component id="redValueLabel" linkSize="5" alignment="0" pref="33" max="32767" attributes="0"/>
-                      <Component id="blueValueLabel" linkSize="5" max="32767" attributes="0"/>
+                      <Component id="greenValueField" linkSize="5" alignment="0" max="32767" attributes="0"/>
+                      <Component id="redValueField" linkSize="5" alignment="0" pref="33" max="32767" attributes="0"/>
+                      <Component id="blueValueField" linkSize="5" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -134,17 +141,17 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="redLabel" linkSize="1" alignment="3" max="32767" attributes="0"/>
-                              <Component id="redValueLabel" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="redValueField" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="greenLabel" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="greenValueLabel" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="greenValueField" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="blueLabel" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="blueValueLabel" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="blueValueField" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -203,19 +210,22 @@
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="blueSliderStateChanged"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="redValueLabel">
+        <Component class="javax.swing.JTextField" name="redValueField">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="redValueFieldActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="greenValueField">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="greenValueLabel">
-          <Properties>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="0"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="blueValueLabel">
+        <Component class="javax.swing.JTextField" name="blueValueField">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="0"/>
